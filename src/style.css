@@ -1,0 +1,238 @@
+:root {
+	--background: #e0e0e0;
+	--right-shadow: #bebebe;
+	--left-shadow: #fff;
+	--error: #ff0000;
+}
+
+html,
+body {
+	background-color: var(--background);
+	font-family: sans-serif;
+}
+
+#navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 100px;
+	padding: 0 20px;
+	border-radius: 10px;
+	background-color: var(--background);
+}
+
+.neu-container {
+	box-shadow: 20px 20px 60px var(--right-shadow), -20px -20px 60px var(--left-shadow);
+}
+
+#logo {
+	display: flex;
+}
+
+#books {
+	font-weight: 500;
+}
+
+#añadir {
+	border: none;
+	border-radius: 10px;
+	padding: 15px;
+	font-family: sans-serif; /* ¿Es necesario? */
+	font-size: 20px;
+	font-weight: 500;
+	background: none;
+	cursor: pointer;
+}
+
+#añadir:active {
+	color: #393939;
+	box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}
+
+#content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+select {
+	margin: 100px 0;
+	width: 250px;
+	background-color: var(--background);
+	border-radius: 30px;
+	border: none;
+	padding: 15px;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+}
+
+select:active {
+	color: #393939;
+	box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}
+
+option {
+	font-weight: bold;
+}
+
+#card-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 100px;
+}
+
+dialog {
+	display: none;
+	transform: scale(0);
+	transition: all 0.3s;
+	transition-behavior: allow-discrete;
+}
+
+dialog[open] {
+	display: block;
+	transform: scale(1);
+
+	@starting-style {
+		transform: scale(0);
+	}
+}
+
+#añadirFormDialog {
+	padding: 25px;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(5px);
+}
+
+#añadirFormDiv {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+
+#añadirFormDiv form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 0 10px;
+}
+
+#añadirFormDiv form input {
+	height: 25px;
+	width: 270px;
+	padding: 0 10px;
+	border: none;
+	border-radius: 5px;
+	font-weight: bold;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+#descripcionInput {
+	height: 100px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	font-weight: bold;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+#añadirFormDiv form label {
+	font-size: small;
+	font-weight: bold;
+}
+
+#formControl {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+}
+
+.botonForm {
+	align-self: center;
+	height: 35px;
+	width: 100%;
+	margin-top: 10px;
+	padding: 0 10px;
+	border: none;
+	border-radius: 5px;
+	font-weight: bold;
+	background: rgba(255, 255, 255, 0.5);
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.botonForm:hover {
+	border: 1px solid #fff;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+#formTitulo {
+	align-self: center;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 210px;
+	padding: 20px;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.imagen {
+	height: 50%;
+	width: 50%;
+	border-radius: 20px;
+}
+
+.titulo {
+	margin: 10px;
+	font-weight: bold;
+}
+
+.autor {
+	margin: 0;
+	font-size: small;
+}
+
+.descripcion {
+	margin: 20px;
+}
+
+.rating {
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	color: goldenrod;
+}
+
+.eliminar {
+	border: none;
+	width: 150px;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	font-weight: bold;
+	color: #fff;
+	background-color: var(--error);
+	box-shadow: 6px 6px 9px rgba(0, 0, 0, 0.3), inset -6px -6px 9px rgba(0, 0, 0, 0.3),
+		inset 6px 6px 9px rgba(255, 255, 255, 0.4);
+	cursor: pointer;
+	transition: transform 0.3s, box-shadow 0.7s;
+}
+
+.eliminar:hover {
+	transform: scale(1.025);
+}
+
+.eliminar:active {
+	transform: scale(0.975);
+	box-shadow: 6px 6px 9px rgba(0, 0, 0, 0), inset -6px -6px 9px rgba(0, 0, 0, 0.3),
+		inset 6px 6px 9px rgba(255, 255, 255, 0.4);
+}
