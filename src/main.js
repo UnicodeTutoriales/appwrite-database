@@ -10,6 +10,7 @@ const dialogAñadir = document.querySelector("#añadirFormDialog");
 const cancelarForm = document.querySelector("#cancelarForm");
 const añadirLibro = document.querySelector("#añadirLibro");
 const añadirForm = document.querySelector("#añadirForm");
+const cardContainer = document.querySelector("#card-container");
 
 botonAñadir.addEventListener("click", () => {
 	dialogAñadir.showModal();
@@ -51,3 +52,36 @@ añadirLibro.addEventListener("click", async (evento) => {
 
 	añadirForm.reset();
 });
+
+async function obtenerLibros() {
+	const respuesta = await databases.listDocuments(
+		DATABASE_ID,
+		COLLECTION_ID
+	);
+
+	cardContainer.innerHTML = "";
+
+	for (let documento of respuesta.documents) {
+		const estrellas = `<i class="fas fa-star"></i>`.repeat(documento.calificacion);
+		const cardHTML = `<div class="card neu-container">
+					<img
+						class="imagen"
+						src="${documento.imagen}"
+						alt="Portada"
+					/>
+					<p class="titulo">${documento.titulo}</p>
+					<p class="autor">${documento.autor}</p>
+					<p class="descripcion">
+						${documento.descripcion}
+					</p>
+					<div class="rating">` 
+						+ estrellas + 
+					`</div>
+					<button class="eliminar">Eliminar</button>
+				</div>`;
+
+		cardContainer.insertAdjacentHTML('afterbegin', cardHTML);
+	}
+}
+
+obtenerLibros();
