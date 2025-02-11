@@ -3,7 +3,8 @@ import { databases } from "../database";
 import { ID } from 'appwrite';
 
 const DATABASE_ID = "unibooks";
-const COLLECTION_ID = "libros";
+const LIBROS_ID = "libros";
+const AUTORES_ID = "autores";
 
 const botonAñadir = document.querySelector("#añadir");
 const dialogAñadir = document.querySelector("#añadirFormDialog");
@@ -11,6 +12,9 @@ const cancelarForm = document.querySelector("#cancelarForm");
 const añadirLibro = document.querySelector("#añadirLibro");
 const añadirForm = document.querySelector("#añadirForm");
 const cardContainer = document.querySelector("#card-container");
+const ordernarSelect = document.querySelector("#ordenarSelect");
+
+let autores;
 
 botonAñadir.addEventListener("click", () => {
 	dialogAñadir.showModal();
@@ -43,11 +47,22 @@ añadirLibro.addEventListener("click", async (evento) => {
 		calificacion
 	}
 
+	const documentoAutor = {
+		nombre: autor
+	}
+
 	const respuestaLibros = await databases.createDocument(
 		DATABASE_ID,
-		COLLECTION_ID,
+		LIBROS_ID,
 		ID.unique(),
 		libro
+	);
+
+	const respuestaAutores = await databases.createDocument(
+		DATABASE_ID,
+		AUTORES_ID,
+		ID.unique(),
+		documentoAutor
 	);
 
 	añadirForm.reset();
@@ -56,7 +71,7 @@ añadirLibro.addEventListener("click", async (evento) => {
 async function obtenerLibros() {
 	const respuesta = await databases.listDocuments(
 		DATABASE_ID,
-		COLLECTION_ID
+		LIBROS_ID
 	);
 
 	cardContainer.innerHTML = "";
@@ -84,4 +99,22 @@ async function obtenerLibros() {
 	}
 }
 
+async function obtenerAutores() {
+	autores = await databases.listDocuments(
+		DATABASE_ID,
+		AUTORES_ID
+	);
+
+	autores.documents.unshift({ nombre: "Reciente" });
+
+	ordernarSelect.innerHTML = "";
+
+	for (let autor of autores.documents) {
+		const optionHTML = `<option value="" class="neu-container">${autor.nombre}</option>`;
+
+		ordernarSelect.insertAdjacentHTML("beforeend", optionHTML);
+	}
+}
+
 obtenerLibros();
+obtenerAutores();
