@@ -117,10 +117,20 @@ async function obtenerLibros(nombre) {
 					<div class="rating">` 
 						+ estrellas + 
 					`</div>
-					<button class="eliminar">Eliminar</button>
+					<button id=borrar-${documento.$id} class="eliminar">Eliminar</button>
 				</div>`;
 
 		cardContainer.insertAdjacentHTML('afterbegin', cardHTML);
+
+		const botonBorrar = document.querySelector(`#borrar-${documento.$id}`);
+
+		botonBorrar.addEventListener("click", () => {
+			databases.deleteDocument(
+				DATABASE_ID,
+				LIBROS_ID,
+				documento.$id
+			);
+		});
 	}
 }
 
