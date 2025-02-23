@@ -1,6 +1,6 @@
 import './style.css'
 import { databases } from "../database";
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 const DATABASE_ID = "unibooks";
 const LIBROS_ID = "libros";
@@ -68,11 +68,23 @@ añadirLibro.addEventListener("click", async (evento) => {
 	añadirForm.reset();
 });
 
-async function obtenerLibros() {
-	const respuesta = await databases.listDocuments(
-		DATABASE_ID,
-		LIBROS_ID
-	);
+async function obtenerLibros(nombre) {
+	let respuesta;
+
+	if (nombre) {
+		respuesta = await databases.listDocuments(
+			DATABASE_ID,
+			LIBROS_ID,
+			[
+				Query.equal("autor", nombre)
+			]
+		);	
+	} else {
+		respuesta = await databases.listDocuments(
+			DATABASE_ID,
+			LIBROS_ID,
+		);	
+	}
 
 	cardContainer.innerHTML = "";
 
@@ -115,6 +127,17 @@ async function obtenerAutores() {
 		ordernarSelect.insertAdjacentHTML("beforeend", optionHTML);
 	}
 }
+
+ordernarSelect.addEventListener("change", () => {
+	const indice = ordernarSelect.selectedIndex;
+	const autor = ordernarSelect.options[indice].text;
+
+	if (autor === "Reciente") {
+		obtenerLibros();
+	} else {
+		obtenerLibros(autor);
+	}
+});
 
 obtenerLibros();
 obtenerAutores();
