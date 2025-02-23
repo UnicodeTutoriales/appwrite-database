@@ -1,5 +1,5 @@
 import './style.css'
-import { databases } from "../database";
+import { client, databases } from "../database";
 import { ID, Query } from 'appwrite';
 
 const DATABASE_ID = "unibooks";
@@ -160,6 +160,16 @@ ordernarSelect.addEventListener("change", () => {
 	} else {
 		obtenerLibros(autor);
 	}
+});
+
+const canales = [
+	'databases.unibooks.collections.libros.documents',
+	'databases.unibooks.collections.autores.documents'
+];
+
+client.subscribe(canales, () => {
+	obtenerLibros();
+	obtenerAutores();
 });
 
 obtenerLibros();
