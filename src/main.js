@@ -34,21 +34,39 @@ añadirLibro.addEventListener("click", async (evento) => {
 	const calificacionInput = document.querySelector("#calificacionInput");
 
 	const titulo = tituloInput.value;
-	const autor = autorInput.value;
+	const nombre = autorInput.value;
 	const descripcion = descripcionInput.value;
 	const imagen = imagenInput.value.length > 0 ? imagenInput.value : null;
 	const calificacion = parseInt(calificacionInput.value);
 
-	const libro = {
-		titulo,
-		autor,
-		descripcion,
-		imagen,
-		calificacion
+	const autorEncontrado = autores.documents.filter(autor => autor.nombre.toLowerCase() === nombre.toLowerCase());
+	let autor;
+
+	if (autorEncontrado.length === 0) {
+		const documentoAutor = {
+			nombre
+		}
+
+		const id = ID.unique();
+
+		const respuestaAutores = await databases.createDocument(
+			DATABASE_ID,
+			AUTORES_ID,
+			id,
+			documentoAutor
+		);
+
+		autor = id;
+	} else {
+		autor = autorEncontrado[0].$id;
 	}
 
-	const documentoAutor = {
-		nombre: autor
+	const libro = {
+		titulo,
+		descripcion,
+		imagen,
+		calificacion,
+		autor
 	}
 
 	const respuestaLibros = await databases.createDocument(
@@ -58,13 +76,6 @@ añadirLibro.addEventListener("click", async (evento) => {
 		libro
 	);
 
-	const respuestaAutores = await databases.createDocument(
-		DATABASE_ID,
-		AUTORES_ID,
-		ID.unique(),
-		documentoAutor
-	);
-
 	añadirForm.reset();
 });
 
@@ -72,11 +83,13 @@ async function obtenerLibros(nombre) {
 	let respuesta;
 
 	if (nombre) {
+		const autorEncontrado = autores.documents.filter(autor => autor.nombre === nombre);
+
 		respuesta = await databases.listDocuments(
 			DATABASE_ID,
 			LIBROS_ID,
 			[
-				Query.equal("autor", nombre)
+				Query.equal("autor", autorEncontrado[0].$id)
 			]
 		);	
 	} else {
@@ -97,7 +110,7 @@ async function obtenerLibros(nombre) {
 						alt="Portada"
 					/>
 					<p class="titulo">${documento.titulo}</p>
-					<p class="autor">${documento.autor}</p>
+					<p class="autor">${documento.autor.nombre}</p>
 					<p class="descripcion">
 						${documento.descripcion}
 					</p>
