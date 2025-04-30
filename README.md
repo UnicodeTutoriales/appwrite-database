@@ -27,9 +27,9 @@ La plantilla inicial se encuentra en la rama **'main'**.
 
 1. Clona este repositorio 
 ```
-git clone https://github.com/tu-usuario/appwrite-tutorial.git
+git clone https://github.com/tu-usuario/appwrite-database.git
 
-cd appwrite-tutorial
+cd appwrite-database
 ```
 2. Para cada lección, deberás cambiar a la rama correspondiente. Usa el siguiente comando para listar las ramas disponibles:
 
